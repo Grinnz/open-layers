@@ -33,10 +33,10 @@ use Test::More;
   open my $read, '<', \$buffer or die "Failed to open buffer for reading: $!";
   is scalar(readline $read), '€', 'read decodes from UTF-8';
   close $read;
-  open my $write, '>', \$buffer or die "Failed to open buffer for writing: $!";
+  open my $write, '>>', \$buffer or die "Failed to open buffer for appending: $!";
   print $write '€';
   close $write;
-  is $buffer, "\x80", 'write encodes to cp1252';
+  is $buffer, "\xE2\x82\xAC\x80", 'write encodes to cp1252';
 }
 
 {
@@ -51,7 +51,8 @@ use Test::More;
   is $buffer, "\xD8\x34\xDD\x22", 'write encodes to UTF-16BE';
 }
 
-{
+SKIP: {
+  skip 'multi layer testing requires 5.14+', 2 unless "$]" > 5.014;
   use open::layers rw => ':raw:encoding(cp1252)';
   my $buffer = "\x80\x0D\x0A";
   open my $read, '<', \$buffer or die "Failed to open buffer for reading: $!";
@@ -64,7 +65,7 @@ use Test::More;
 }
 
 SKIP: {
-  skip 2, 'multi layer testing requires 5.14+' unless "$]" >= 5.014;
+  skip 'multi layer testing requires 5.14+', 2 unless "$]" >= 5.014;
   use open::layers rw => ':raw:encoding(UTF-16LE):crlf';
   my $buffer = "\x03\x26\x0D\x00\x0A\x00";
   open my $read, '<', \$buffer or die "Failed to open buffer for reading: $!";

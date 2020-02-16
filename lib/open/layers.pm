@@ -49,9 +49,9 @@ open::layers - Set default PerlIO layers
 =head1 SYNOPSIS
 
   # set default for open() in this lexical scope
-  use open::layers r => ':raw';
+  use open::layers r => ':raw'; # no CRLF translation on read
   use open::layers r => ':encoding(cp1252)', w => ':encoding(UTF-8)';
-  use open::layers rw => ':raw:crlf'; # all opened handles
+  use open::layers rw => ':encoding(UTF-8)'; # all opened handles
 
   # set layers on the standard handles (not lexical)
   use open::layers STDIN => ':encoding(UTF-8)';
