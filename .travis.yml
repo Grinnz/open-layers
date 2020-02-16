@@ -18,3 +18,5 @@ matrix:
     dist: trusty
   - perl: "5.10"
     dist: trusty
+  - perl: "5.8"
+    dist: trusty

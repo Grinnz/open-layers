@@ -21,7 +21,7 @@ open::layers - Set default PerlIO layers
 This pragma is a reimagination of the core L<open> pragma, which either sets
 L<PerlIO> layers on the global standard handles, or sets default L<PerlIO>
 layers for handles opened in the current lexical scope. The interface is
-redesigned to be more explicit and intuitive. See L</"COMPARISON TO open.pm>
+redesigned to be more explicit and intuitive. See L</"COMPARISON TO open.pm">
 for details.
 
 =head1 ARGUMENTS
@@ -38,7 +38,7 @@ affecting usage of that handle globally. C<STDIO> is a shortcut to operate on
 all three.
 
 Note that this will also affect reading from C<STDIN> via L<ARGV|perlvar/ARGV>
-(empty C<< <> >> or L<readline()|perlfunc/readline>).
+(empty C<< <> >>, C<<< <<>> >>>, or L<readline()|perlfunc/readline>).
 
 =item $handle
 
