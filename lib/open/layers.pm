@@ -85,7 +85,8 @@ Note that this will also affect reading from C<STDIN> via L<ARGV|perlvar/ARGV>
 =item $handle
 
 An arbitrary filehandle will have layer(s) set on it directly, affecting all
-usage of that handle similarly to the operation on standard handles. This is
+usage of that handle similarly to the operation on standard handles. Handles
+must be passed as a glob or reference to a glob, B<not> a bareword. This is
 equivalent to calling L<binmode()|perlfunc/binmode> on the handle in a C<BEGIN>
 block.
 
