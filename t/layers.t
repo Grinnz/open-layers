@@ -52,6 +52,19 @@ use Test::More;
 }
 
 {
+  use open::layers rw => ':raw:encoding(cp1252)';
+  my $buffer = "\x80\x0D\x0A";
+  open my $read, '<', \$buffer or die "Failed to open buffer for reading: $!";
+  is scalar(readline $read), "€\r\n", 'read decodes from cp1252 (no CRLF)';
+  close $read;
+  open my $write, '>', \$buffer or die "Failed to open buffer for writing: $!";
+  print $write "€\r\n";
+  close $write;
+  is $buffer, "\x80\x0D\x0A", 'write encodes to cp1252 (no CRLF)';
+}
+
+SKIP: {
+  skip 2, 'multi layer testing requires 5.14+' unless "$]" >= 5.014;
   use open::layers rw => ':raw:encoding(UTF-16LE):crlf';
   my $buffer = "\x03\x26\x0D\x00\x0A\x00";
   open my $read, '<', \$buffer or die "Failed to open buffer for reading: $!";
