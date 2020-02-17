@@ -89,7 +89,9 @@ close $test_utf16le;
   is scalar(readline $read_out), "\x80\x0D\x0A", 'write encodes to cp1252 (no CRLF)';
 }
 
-{
+SKIP: {
+  skip ':crlf after :encoding does not work properly on Windows before 5.14', 2
+    if $^O eq 'MSWin32' and "$]" < 5.014;
   local $/;
   use open::layers rw => ':raw:encoding(UTF-16LE):crlf:utf8'; # :utf8 for 5.8.8
   open my $read, "< $dir/utf16le.txt" or die "Failed to open $dir/utf16le.txt for reading: $!";

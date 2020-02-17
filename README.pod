@@ -103,11 +103,53 @@ these handles, or use the C<:raw> pseudo-layer to "reset" the layers to a
 binary stream before applying text translation layers.
 
   use open::layers STDIO => ':raw:encoding(UTF-16BE)';
-  use open::layers STDIO => ':raw:encoding(UTF-16BE):crlf'; # on Windows
+  use open::layers STDIO => ':raw:encoding(UTF-16BE):crlf'; # on Windows 5.14+
 
 =item *
 
 Unlike L<open>, the C<:locale> pseudo-layer is not (yet) implemented.
+
+=back
+
+=head1 CAVEATS
+
+The L<PerlIO> layers and L<open> pragma have experienced several issues over
+the years, most of which can't be worked around by this module. It's
+recommended to use a recent Perl and a Linux-like architecture if you will be
+using complex layers. Here are some selected issues:
+
+=item *
+
+Before Perl 5.8.8, L<open()|perlfunc/open> did not know about
+L<${^OPEN}|perlvar/${^OPEN}> and thus ignored any lexical default layers.
+L<[perl #8168|https://github.com/Perl/perl5/issues/8168>
+
+=item *
+
+Before Perl 5.8.9, the C<:crlf> layer did not preserve the C<:utf8> flag from
+an earlier encoding layer, resulting in an improper translation of the bytes.
+This can be worked around by adding the C<:utf8> layer after C<:crlf> (even if
+it is not a UTF-8 encoding).
+
+=item *
+
+Before Perl 5.14, the C<:crlf> layer does not properly apply on top of another
+layer, such as an encoding layer, if it had also been applied earlier in the
+stack such as is default on Windows. Thus you could not usefully use a layer
+like C<:encoding(UTF-16BE)> with a following C<:crlf>.
+L<[perl #8325|https://github.com/Perl/perl5/issues/8325>
+
+=item *
+
+Before Perl 5.14, the C<:raw> layer did not properly remove preceding text
+translation layers, and only left off the top layer.
+L<[perl #10904|https://github.com/perl/perl5/issues/10904>
+
+=item *
+
+Before Perl 5.16, L<use|perlfunc/use> and L<require()|perlfunc/require> are
+affected by lexical default layers when loading the source file, leading to
+unexpected results. L<[perl #11541]|https://github.com/perl/perl5/issues/11541>
 
 =back
 
