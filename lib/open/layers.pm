@@ -159,8 +159,8 @@ The L<PerlIO> layers and L<open> pragma have experienced several issues over
 the years, most of which can't be worked around by this module. It's
 recommended to use a recent Perl if you will be using complex layers; for
 compatibility with old Perls, stick to L<binmode()|perlfunc/binmode> (either
-with no arguments for a binary stream, or with a single C<:encoding> layer).
-Here are some selected issues:
+with no layers for a binary stream, or with a single C<:encoding> layer). Here
+are some selected issues:
 
 =item *
 
