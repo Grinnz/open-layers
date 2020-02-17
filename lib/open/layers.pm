@@ -66,6 +66,14 @@ layers for handles opened in the current lexical scope. The interface is
 redesigned to be more explicit and intuitive. See L</"COMPARISON TO open.pm">
 for details.
 
+A three-argument L<open()|perlfunc/open> call that specifies layers will ignore
+any lexical defaults from this module or the L<open> pragma. A single C<:>
+(colon) also does this, without applying any further layers.
+
+  use open::layers rw => ':encoding(UTF-8)';
+  open my $fh, '>:unix', $file; # ignores UTF-8 layer and applies :unix
+  open my $fh, '<:', $file; # ignores UTF-8 layer
+
 =head1 ARGUMENTS
 
 Each operation is specified in a pair of arguments. The first argument, the
