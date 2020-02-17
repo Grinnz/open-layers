@@ -120,8 +120,8 @@ using complex layers. Here are some selected issues:
 
 =item *
 
-Before Perl 5.8.8, L<open()|perlfunc/open> did not know about
-L<${^OPEN}|perlvar/${^OPEN}> and thus ignored any lexical default layers.
+Before Perl 5.8.8, L<open()|perlfunc/open> called with three arguments would
+ignore L<${^OPEN}|perlvar/${^OPEN}> and thus any lexical default layers.
 L<[perl #8168|https://github.com/Perl/perl5/issues/8168>
 
 =item *
