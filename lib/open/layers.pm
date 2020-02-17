@@ -183,8 +183,14 @@ L<[perl #8325]|https://github.com/Perl/perl5/issues/8325>
 
 =item *
 
-Before Perl 5.14, the C<:raw> layer did not properly remove preceding text
-translation layers, and only left off the top layer.
+Before Perl 5.14, the C<:pop>, C<:utf8>, or C<:bytes> layers did not allow
+stacking further layers, like C<:pop:crlf>.
+L<[perl #11054]|https://github.com/perl/perl5/issues/11054>
+
+=item *
+
+Before Perl 5.14, the C<:raw> layer reset the handle to an unbuffered state,
+rather than just removing text translation layers.
 L<[perl #10904]|https://github.com/perl/perl5/issues/10904>
 
 =item *
