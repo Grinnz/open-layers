@@ -195,6 +195,11 @@ L<[perl #10904]|https://github.com/perl/perl5/issues/10904>
 
 =item *
 
+Before Perl 5.14, the C<:raw> layer did not work properly with in-memory scalar
+handles.
+
+=item *
+
 Before Perl 5.16, L<use|perlfunc/use> and L<require()|perlfunc/require> are
 affected by lexical default layers when loading the source file, leading to
 unexpected results. L<[perl #11541]|https://github.com/perl/perl5/issues/11541>
