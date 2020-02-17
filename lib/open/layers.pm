@@ -127,8 +127,7 @@ affecting handles opened in the lexical scope.
 
 =item *
 
-Unlike L<open>, multiple layers are not required to be space separated. Note
-that multiple layers only work properly since Perl 5.14.
+Unlike L<open>, multiple layers are not required to be space separated.
 
 =item *
 
@@ -138,7 +137,7 @@ these handles, or use the C<:raw> pseudo-layer to "reset" the layers to a
 binary stream before applying text translation layers.
 
   use open::layers STDIO => ':raw:encoding(UTF-16BE)';
-  use open::layers STDIO => ':raw:encoding(UTF-16BE):crlf'; # on Windows 5.14+
+  use open::layers STDIO => ':raw:encoding(UTF-16BE):crlf'; # on Windows
 
 =item *
 
