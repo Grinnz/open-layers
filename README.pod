@@ -122,7 +122,7 @@ using complex layers. Here are some selected issues:
 
 Before Perl 5.8.8, L<open()|perlfunc/open> called with three arguments would
 ignore L<${^OPEN}|perlvar/${^OPEN}> and thus any lexical default layers.
-L<[perl #8168|https://github.com/Perl/perl5/issues/8168>
+L<[perl #8168]|https://github.com/Perl/perl5/issues/8168>
 
 =item *
 
@@ -137,13 +137,13 @@ Before Perl 5.14, the C<:crlf> layer does not properly apply on top of another
 layer, such as an encoding layer, if it had also been applied earlier in the
 stack such as is default on Windows. Thus you could not usefully use a layer
 like C<:encoding(UTF-16BE)> with a following C<:crlf>.
-L<[perl #8325|https://github.com/Perl/perl5/issues/8325>
+L<[perl #8325]|https://github.com/Perl/perl5/issues/8325>
 
 =item *
 
 Before Perl 5.14, the C<:raw> layer did not properly remove preceding text
 translation layers, and only left off the top layer.
-L<[perl #10904|https://github.com/perl/perl5/issues/10904>
+L<[perl #10904]|https://github.com/perl/perl5/issues/10904>
 
 =item *
 
