@@ -159,7 +159,8 @@ binary stream before applying text translation layers.
 
 =item *
 
-Unlike L<open>, the C<:locale> pseudo-layer is not (yet) implemented.
+Unlike L<open>, the C<:locale> pseudo-layer is not (yet) implemented. Consider
+installing L<PerlIO::locale> to support this layer.
 
 =back
 

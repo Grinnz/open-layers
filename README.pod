@@ -64,7 +64,17 @@ on it.
 
 These strings indicate to set the default layer(s) for handles opened in the
 current lexical scope: C<r> for handles opened for reading, C<w> for handles
-opened for writing, and C<rw> for all handles.
+opened for writing (or C<O_RDWR>), and C<rw> for all handles.
+
+This lexical effect works by setting L<${^OPEN}|perlvar/${^OPEN}>, like the
+L<open> pragma and C<-C> switch. The functions L<open()|perlfunc/open>,
+L<sysopen()|perlfunc/sysopen>, L<pipe()|perlfunc/pipe>,
+L<socketpair()|perlfunc/socketpair>, L<socket()|perlfunc/socket>,
+L<accept()|perlfunc/accept>, and L<readpipe()|perlfunc/readpipe> (C<qx> or
+backticks) are affected by this variable. Indirect calls to these functions via
+modules like L<IO::Handle> occur in a different lexical scope, so are not
+affected, nor are directory handles such as opened by
+L<opendir()|perlfunc/opendir>.
 
 Note that this will also affect implicitly opened read handles such as files
 opened by L<ARGV|perlvar/ARGV> (empty C<< <> >>, C<<< <<>> >>>, or
@@ -107,7 +117,8 @@ binary stream before applying text translation layers.
 
 =item *
 
-Unlike L<open>, the C<:locale> pseudo-layer is not (yet) implemented.
+Unlike L<open>, the C<:locale> pseudo-layer is not (yet) implemented. Consider
+installing L<PerlIO::locale> to support this layer.
 
 =back
 
