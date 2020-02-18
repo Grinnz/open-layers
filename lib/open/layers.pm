@@ -3,9 +3,13 @@ package open::layers;
 use strict;
 use warnings;
 use Carp ();
-use open ();
 
 our $VERSION = '0.001';
+
+# series of layers delimited by colons and followed by non-space characters
+# allow spaces before and between layers because core does, but don't require them
+# we require a leading colon even though core doesn't, because it's expected anyway
+my $LAYERS_SPEC = qr/\A\s*(?::[^\s:]+\s*)+\z/;
 
 sub import {
   my $class = shift;
@@ -14,13 +18,13 @@ sub import {
     if (ref $arg or ref \$arg eq 'GLOB') {
       Carp::croak "open::layers: No layer provided for handle $arg" unless @_;
       my $layer = shift;
-      Carp::croak "open::layers: Invalid layer specification $layer" unless $layer =~ m/\A\s*(?::[^\s:]+\s*)+\z/;
+      Carp::croak "open::layers: Invalid layer specification $layer" unless $layer =~ m/$LAYERS_SPEC/;
       binmode $arg, $layer or Carp::croak "open::layers: binmode $arg failed: $!";
     } elsif ($arg =~ m/\ASTD(IN|OUT|ERR|IO)\z/) {
       my $which = $1;
       Carp::croak "open::layers: No layer provided for handle $arg" unless @_;
       my $layer = shift;
-      Carp::croak "open::layers: Invalid layer specification $layer" unless $layer =~ m/\A\s*(?::[^\s:]+\s*)+\z/;
+      Carp::croak "open::layers: Invalid layer specification $layer" unless $layer =~ m/$LAYERS_SPEC/;
       my @handles = $which eq 'IN' ? \*STDIN
         : $which eq 'OUT' ? \*STDOUT
         : $which eq 'ERR' ? \*STDERR
@@ -30,10 +34,16 @@ sub import {
       my $which = $1;
       Carp::croak "open::layers: No layer provided for $arg handles" unless @_;
       my $layer = shift;
-      Carp::croak "open::layers: Invalid layer specification $layer" unless $layer =~ m/\A\s*(?::[^\s:]+\s*)+\z/;
-      my @layers = $layer =~ m/(:[^\s:]+)/g;
-      my $open_type = $which eq 'r' ? 'IN' : $which eq 'w' ? 'OUT' : 'IO';
-      'open'->import($open_type => join ' ', @layers);
+      Carp::croak "open::layers: Invalid layer specification $layer" unless $layer =~ m/$LAYERS_SPEC/;
+      my @layers = $layer =~ m/(:[^\s:]+)/g; # split up the layers so we can set ${^OPEN} like open.pm
+      my ($in, $out) = split /\0/, (${^OPEN} || "\0"), -1;
+      if ($which ne 'w') { # r, rw
+        $in = join ' ', @layers;
+      }
+      if ($which ne 'r') { # w, rw
+        $out = join ' ', @layers;
+      }
+      ${^OPEN} = join "\0", $in, $out;
     } else {
       Carp::croak "open::layers: Unknown flag $arg";
     }
@@ -172,6 +182,8 @@ recommended to use a recent Perl if you will be using complex layers; for
 compatibility with old Perls, stick to L<binmode()|perlfunc/binmode> (either
 with no layers for a binary stream, or with a single C<:encoding> layer). Here
 are some selected issues:
+
+=over
 
 =item *
 

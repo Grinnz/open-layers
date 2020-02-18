@@ -131,6 +131,8 @@ compatibility with old Perls, stick to L<binmode()|perlfunc/binmode> (either
 with no layers for a binary stream, or with a single C<:encoding> layer). Here
 are some selected issues:
 
+=over
+
 =item *
 
 Before Perl 5.8.8, L<open()|perlfunc/open> called with three arguments would
