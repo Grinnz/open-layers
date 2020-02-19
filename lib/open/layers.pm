@@ -193,8 +193,9 @@ order they are set (left to right), and a write operation in the reverse order.
 =item *
 
 The C<:unix> layer implements the lowest level unbuffered I/O, even on Windows.
-All other layers operate on top of this and usually a buffering layer like
-C<:perlio> or C<:crlf>, and these two layers make up the platform defaults.
+Most other layers operate on top of this and usually a buffering layer like
+C<:perlio> or C<:crlf>, and these two low-level layers make up the platform
+defaults.
 
 =item *
 
