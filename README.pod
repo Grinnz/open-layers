@@ -122,6 +122,50 @@ installing L<PerlIO::locale> to support this layer.
 
 =back
 
+=head1 PERLIO LAYERS
+
+PerlIO layers are described in detail in the L<PerlIO> documentation. Their
+implementation has several quirks that may be useful to know:
+
+=over
+
+=item *
+
+The C<:unix> layer implements the lowest level unbuffered I/O, even on Windows.
+All other layers operate on top of this and usually a buffering layer like
+C<:perlio> or C<:crlf>.
+
+=item *
+
+Many layers are not real layers that actually implement I/O or translation.
+Some like C<:utf8> set flags on previous layers that change how they operate.
+Some like C<:pop> simply modify the existing set of layers. Some like C<:raw>
+can do both.
+
+=item *
+
+The C<:crlf> layer is not just a translation between C<\n> and C<CRLF>. On
+Windows, it is the layer that implements I/O buffering (like L<:perlio> on
+Unix-like systems), and operations that would remove the C<CRLF> translation
+(like L<binmode()|perlfunc/binmode> with no arguments, or pushing a C<:raw>
+layer) actually just disable the C<CRLF> translation flag on this layer. Since
+Perl 5.14, pushing a C<:crlf> layer on top of other translation layers on
+Windows correctly adds a C<CRLF> translation layer in that position. (On
+Unix-like systems, C<:crlf> is a mundane C<CRLF> translation layer.)
+
+=item *
+
+The C<:utf8> layer sets a flag that indicates the preceding set of layers will
+translate the input to Perl's internal upgraded string format, which may
+resemble UTF-8 or UTF-EBCDIC, or will translate the output from that format. It
+is B<not> an encoding translation layer; for this, use C<:encoding(UTF-8)> or
+L<PerlIO::utf8_strict>. Any encoding translation layer will generally set the
+C<:utf8> flag, even when the desired encoding is not UTF-8, as they translate
+between the desired encoding and Perl's internal format. (The C<:bytes> layer
+unsets this flag, thus indicating the stream is to be interpreted as bytes.)
+
+=back
+
 =head1 CAVEATS
 
 The L<PerlIO> layers and L<open> pragma have experienced several issues over
