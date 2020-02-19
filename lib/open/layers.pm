@@ -197,7 +197,7 @@ can do both.
 =item *
 
 The C<:crlf> layer is not just a translation between C<\n> and C<CRLF>. On
-Windows, it is the layer that implements I/O buffering (like L<:perlio> on
+Windows, it is the layer that implements I/O buffering (like C<:perlio> on
 Unix-like systems), and operations that would remove the C<CRLF> translation
 (like L<binmode()|perlfunc/binmode> with no arguments, or pushing a C<:raw>
 layer) actually just disable the C<CRLF> translation flag on this layer. Since
