@@ -6,7 +6,7 @@ use Carp ();
 
 our $VERSION = '0.001';
 
-# series of layers delimited by colons and followed by non-space characters
+# series of layers delimited by colons and consisting of non-space characters
 # allow spaces before and between layers because core does, but don't require them
 # we require a leading colon even though core doesn't, because it's expected anyway
 my $LAYERS_SPEC = qr/\A\s*(?::[^\s:]+\s*)+\z/;
