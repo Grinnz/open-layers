@@ -161,8 +161,13 @@ resemble UTF-8 or UTF-EBCDIC, or will translate the output from that format. It
 is B<not> an encoding translation layer; for this, use C<:encoding(UTF-8)> or
 L<PerlIO::utf8_strict>. Any encoding translation layer will generally set the
 C<:utf8> flag, even when the desired encoding is not UTF-8, as they translate
-between the desired encoding and Perl's internal format. (The C<:bytes> layer
-unsets this flag, thus indicating the stream is to be interpreted as bytes.)
+between the desired encoding and Perl's internal format.
+
+=item *
+
+I/O to an in-memory scalar variable instead of a file is implemented by the
+C<:scalar> layer, see L<PerlIO::scalar>. The scalar is expected to act like a
+file, i.e. only contain or store bytes.
 
 =back
 
