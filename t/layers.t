@@ -54,7 +54,7 @@ _spurt "$dir/utf16le.txt", "\x03\x26\x0D\x00\x0A\x00";
   open my $read, "< $dir/utf8.txt" or die "Failed to open $dir/utf8.txt for reading: $!";
   is do { local $/; scalar readline $read }, '☃', 'read decodes from UTF-8';
   close $read;
-  open my $write, "> $dir/cp1252_out.txt" or die "Failed to $dir/cp1252_out.txt for writing: $!";
+  open my $write, "> $dir/cp1252_out.txt" or die "Failed to open $dir/cp1252_out.txt for writing: $!";
   print $write '€';
   close $write;
   is _slurp("$dir/cp1252_out.txt"), "\x80", 'write encodes to cp1252';

@@ -183,6 +183,11 @@ implementation has several quirks that may be useful to know:
 
 =item *
 
+Layers are ordered; a read operation will go through the layers in the order
+they are set (left to right), and a write operation in the reverse order.
+
+=item *
+
 The C<:unix> layer implements the lowest level unbuffered I/O, even on Windows.
 All other layers operate on top of this and usually a buffering layer like
 C<:perlio> or C<:crlf>.
@@ -190,9 +195,9 @@ C<:perlio> or C<:crlf>.
 =item *
 
 Many layers are not real layers that actually implement I/O or translation.
-Some like C<:utf8> set flags on previous layers that change how they operate.
-Some like C<:pop> simply modify the existing set of layers. Some like C<:raw>
-can do both.
+Some (like C<:utf8>) set flags on previous layers that change how they operate.
+Some (like C<:pop>) simply modify the existing set of layers. Some (like
+C<:raw>) may do both.
 
 =item *
 
