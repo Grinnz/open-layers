@@ -142,7 +142,7 @@ order they are set (left to right), and a write operation in the reverse order.
 
 The C<:unix> layer implements the lowest level unbuffered I/O, even on Windows.
 Most other layers operate on top of this and usually a buffering layer like
-C<:perlio> or C<:crlf>, and these two low-level layers make up the platform
+C<:perlio> or C<:crlf>, and these low-level layers make up the platform
 defaults.
 
 =item *
@@ -190,7 +190,7 @@ L<open()|perlfunc/open> or default layers set in L<${^OPEN}|perlvar/${^OPEN}>
 (via the lexical usage of this pragma or the L<open> pragma), will define the
 complete stack of layers on that handle. Certain layers implicitly include
 lower-level layers that are needed, for example C<:encoding(UTF-8)> will
-implicitly prepend the default C<:unix:perlio> (or similar).
+implicitly prepend the platform defaults C<:unix:perlio> (or similar).
 
 =item *
 
