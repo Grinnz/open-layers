@@ -95,4 +95,16 @@ SKIP: {
   is _slurp("$dir/utf16le_out.txt"), "\x03\x26\x0D\x00\x0A\x00", 'write encodes to UTF-16LE and CRLF';
 }
 
+{
+  open my $read, '<', "$dir/utf8.txt" or die "Failed to open $dir/utf8.txt for reading: $!";
+  open::layers->import($read => ':encoding(UTF-8)');
+  is do { local $/; scalar readline $read }, '☃', 'UTF-8 encoding applied to handle';
+  close $read;
+  open my $write, '>', "$dir/cp1252_out.txt" or die "Failed to open $dir/cp1252_out.txt for writing: $!";
+  open::layers->import(*$write => ':encoding(cp1252)');
+  print $write '€';
+  close $write;
+  is _slurp("$dir/cp1252_out.txt"), "\x80", 'cp1252 encoding applied to handle';
+}
+
 done_testing;
