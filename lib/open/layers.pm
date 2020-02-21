@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp ();
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 # series of layers delimited by colons and consisting of non-space characters
 # allow spaces before and between layers because core does, but don't require them
