@@ -5,7 +5,7 @@ use warnings;
 use Carp ();
 use Scalar::Util ();
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 # series of layers delimited by colons and consisting of non-space characters
 # allow spaces before and between layers because core does, but don't require them
