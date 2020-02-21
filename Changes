@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+0.003     2020-02-21 15:06:51 EST
   - Throw a better error when requested to set layers on refs that are not filehandles.
 
 0.002     2020-02-21 12:15:50 EST
