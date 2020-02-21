@@ -251,7 +251,7 @@ L<binmode()|perlfunc/binmode> (or the non-lexical usage of this pragma or the
 L<open> pragma), the specified layers are pushed at the end of the handle's
 existing layer stack, and any special operations of pseudo-layers take effect.
 So you can open an unbuffered handle with only C<:unix>, but to remove existing
-layers on an already open handle, you must push pseudo-layers like L<:pop> or
+layers on an already open handle, you must push pseudo-layers like C<:pop> or
 C<:raw> (equivalent to calling L<binmode()|perlfunc/binmode> with no layers).
 
 =back
