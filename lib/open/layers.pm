@@ -3,6 +3,7 @@ package open::layers;
 use strict;
 use warnings;
 use Carp ();
+use Scalar::Util ();
 
 our $VERSION = '0.003';
 
@@ -15,7 +16,9 @@ sub import {
   my $class = shift;
   while (@_) {
     my $arg = shift;
-    if (ref $arg or ref \$arg eq 'GLOB') {
+    my $ref = Scalar::Util::reftype $arg;
+    if ((defined $ref and ($ref eq 'GLOB' or $ref eq 'IO'))
+        or (!defined $ref and Scalar::Util::reftype \$arg eq 'GLOB')) {
       Carp::croak "open::layers: No layer provided for handle $arg" unless @_;
       my $layer = shift;
       Carp::croak "open::layers: Invalid layer specification $layer" unless $layer =~ m/$LAYERS_SPEC/;
@@ -45,7 +48,7 @@ sub import {
       }
       ${^OPEN} = join "\0", $in, $out;
     } else {
-      Carp::croak "open::layers: Unknown flag $arg";
+      Carp::croak "open::layers: Unknown flag $arg (expected STD(IN|OUT|ERR|IO), r/w/rw, or filehandle)";
     }
   }
 }
